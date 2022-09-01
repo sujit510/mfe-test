@@ -41,6 +41,9 @@ jobs:
           echo "AWS_S3_BUCKET=secrets.AWS_S3_BUCKET_HEADER" >> $GITHUB_ENV
           echo "FOLDER=header" >> $GITHUB_ENV
 
+      - name: cd into the appropriate folder
+        run: cd ${{ env.FOLDER }}
+
         # run only if some file in 'container' folder was changed
       # - if: steps.changes.outputs.container == 'true'
       #   run: |
