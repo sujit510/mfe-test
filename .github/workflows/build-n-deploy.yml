@@ -42,12 +42,12 @@ jobs:
           echo "FOLDER=header" >> $GITHUB_ENV
 
       # - name: cd into the appropriate folder
-        # run: cd ${{ env.FOLDER }}
+      # run: cd ${{ env.FOLDER }}
 
       # - name: List files in the child fodler
-        # run: ls
+      # run: ls
 
-        # run only if some file in 'container' folder was changed
+      # run only if some file in 'container' folder was changed
       # - if: steps.changes.outputs.container == 'true'
       #   run: |
       #     cd container
@@ -60,13 +60,12 @@ jobs:
         with:
           node-version: 16
       - run: |
-        cd ${{ env.FOLDER }}
-        npm i
+          cd ${{ env.FOLDER }}
+          npm i
       - run: |
-        cd ${{ env.FOLDER }}
-        npm run build
+          cd ${{ env.FOLDER }}
+          npm run build
       # Recognise code ends here
-
       # AWS S3
       - uses: jakejarvis/s3-sync-action@master
         with:
