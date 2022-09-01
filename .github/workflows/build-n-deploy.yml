@@ -41,11 +41,11 @@ jobs:
           echo "AWS_S3_BUCKET=secrets.AWS_S3_BUCKET_HEADER" >> $GITHUB_ENV
           echo "FOLDER=header" >> $GITHUB_ENV
 
-      - name: cd into the appropriate folder
-        run: cd ${{ env.FOLDER }}
+      # - name: cd into the appropriate folder
+        # run: cd ${{ env.FOLDER }}
 
-      - name: List files in the child fodler
-        run: ls
+      # - name: List files in the child fodler
+        # run: ls
 
         # run only if some file in 'container' folder was changed
       # - if: steps.changes.outputs.container == 'true'
@@ -59,8 +59,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-      - run: npm i
-      - run: npm run build
+      - run: |
+        cd ${{ env.FOLDER }}
+        npm i
+      - run: |
+        cd ${{ env.FOLDER }}
+        npm run build
       # Recognise code ends here
 
       # AWS S3
