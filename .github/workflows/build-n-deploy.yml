@@ -16,6 +16,17 @@ jobs:
           echo "AWS_S3_BUCKET=secrets.AWS_S3_BUCKET_CONTAINER"
           echo "FOLDER=container"
 
+      # Recognise which code has changed [host(container) or guest(header)] and trigger the workflow accordingly
+      - name: Recognise which code has changed and trigger the workflow accordingly
+        uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            container:
+              - 'container/**'
+            header:
+              - 'header/**'
+
       - name: Set up FOLDER & AWS_S3_BUCKET var for guest (container)
         if: steps.changes.outputs.container == 'true'
         run: |
@@ -27,16 +38,6 @@ jobs:
           echo "AWS_S3_BUCKET=secrets.AWS_S3_BUCKET_HEADER"
           echo "FOLDER=header"
 
-      # Recognise which code has changed [host(container) or guest(header)] and trigger the workflow accordingly
-      - name: Recognise which code has changed and trigger the workflow accordingly
-        uses: dorny/paths-filter@v2
-        id: changes
-        with:
-          filters: |
-            container:
-              - 'container/**'
-            header:
-              - 'header/**'
         # run only if some file in 'container' folder was changed
       # - if: steps.changes.outputs.container == 'true'
       #   run: |
@@ -49,7 +50,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-      - run: cd ${{ env.FOLDER }}
       - run: npm i
       - run: npm run build
       # Recognise code ends here
