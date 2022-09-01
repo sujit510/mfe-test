@@ -41,31 +41,18 @@ jobs:
           echo "AWS_S3_BUCKET=secrets.AWS_S3_BUCKET_HEADER" >> $GITHUB_ENV
           echo "FOLDER=header" >> $GITHUB_ENV
 
-      # - name: cd into the appropriate folder
-      # run: cd ${{ env.FOLDER }}
-
-      # - name: List files in the child fodler
-      # run: ls
-
-      # run only if some file in 'container' folder was changed
-      # - if: steps.changes.outputs.container == 'true'
-      #   run: |
-      #     cd container
-      #   # run only if some file in 'header' folder was changed
-      # - if: steps.changes.outputs.header == 'true'
-      #   run: |
-      #     cd header
-      - name: NPM Install
+      - name: Import Node action
         uses: actions/setup-node@v3
         with:
           node-version: 16
-      - run: |
+      - name: Install npm packages
+        run: |
           cd ${{ env.FOLDER }}
           npm i
-      - run: |
+      - name: Build
+        run: |
           cd ${{ env.FOLDER }}
           npm run build
-      # Recognise code ends here
       # AWS S3
       - uses: jakejarvis/s3-sync-action@master
         with:
@@ -75,5 +62,5 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: "ap-south-1"
-          SOURCE_DIR: "dist" # optional: defaults to entire repository
+          SOURCE_DIR: "${{ env.FOLDER }}/dist" # optional: defaults to entire repository
       - run: echo "🍏 This job's status is ${{ job.status }}."
