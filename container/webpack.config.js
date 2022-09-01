@@ -40,7 +40,7 @@ module.exports = {
     new ModuleFederationPlugin({
       name: "container",
       remotes: {
-        header: "header@http://localhost:8081/remoteEntry.js",
+        header: "header@http://mfe-react-guest.sujitsingh.in/remoteEntry.js",
       },
       shared: packageJson.dependencies,
     }),

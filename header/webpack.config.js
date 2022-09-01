@@ -9,7 +9,7 @@ module.exports = {
   output: {
     path: __dirname + "/dist",
     // publicPath: "/",
-    publicPath: "http://localhost:8081/",
+    publicPath: "http://mfe-react-guest.sujitsingh.in/",
     filename: "bundle.js",
   },
   devServer: {
