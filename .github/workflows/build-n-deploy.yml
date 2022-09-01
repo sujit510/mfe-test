@@ -44,6 +44,9 @@ jobs:
       - name: cd into the appropriate folder
         run: cd ${{ env.FOLDER }}
 
+      - name: List files in the child fodler
+        run: ls
+
         # run only if some file in 'container' folder was changed
       # - if: steps.changes.outputs.container == 'true'
       #   run: |
