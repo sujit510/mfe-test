@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 
 function App() {
   return (
-    <div style={{ backgroundColor: "yellow", height: "50px", width: "100%" }} />
+    <div style={{ backgroundColor: "cyan", height: "50px", width: "100%" }} />
   );
 }
 
