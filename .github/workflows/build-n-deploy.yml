@@ -1,0 +1,59 @@
+name: GitHub Actions Demo
+on: [push]
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: Set up AWS_S3_BUCKET var for guest (container)
+        if: steps.changes.outputs.container == 'true'
+        run: |
+          echo "AWS_S3_BUCKET=secrets.AWS_S3_BUCKET_CONTAINER"
+      - name: Set up AWS_S3_BUCKET var for guest (header)
+        if: steps.changes.outputs.header == 'true'
+        run: |
+          echo "AWS_S3_BUCKET=secrets.AWS_S3_BUCKET_HEADER"
+
+      # Recognise which code has changed [host(container) or guest(header)] and trigger the workflow accordingly
+      - name: Recognise which code has changed and trigger the workflow accordingly
+        uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            container:
+              - 'container/**'
+            header:
+              - 'header/**'
+        # run only if some file in 'container' folder was changed
+      - if: steps.changes.outputs.container == 'true'
+        run: |
+          cd container
+        # run only if some file in 'header' folder was changed
+      - if: steps.changes.outputs.header == 'true'
+        run: |
+          cd header
+      - name: NPM Install
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm i
+      - run: npm run build
+      # Recognise code ends here
+
+      # AWS S3
+      - uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --acl public-read --follow-symlinks --exclude '.git/*'
+        env:
+          AWS_S3_BUCKET: ${{ env.AWS_S3_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: "ap-south-1"
+          SOURCE_DIR: "dist" # optional: defaults to entire repository
+      - run: echo "🍏 This job's status is ${{ job.status }}."
