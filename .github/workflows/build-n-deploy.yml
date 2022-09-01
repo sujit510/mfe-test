@@ -53,6 +53,12 @@ jobs:
         run: |
           cd ${{ env.FOLDER }}
           npm run build
+
+      - name: Debug-1
+        run: echo env.AWS_S3_BUCKET
+
+      - name: Debug-2
+        run: echo ${{ env.AWS_S3_BUCKET }}
       # AWS S3
       - uses: jakejarvis/s3-sync-action@master
         with:
