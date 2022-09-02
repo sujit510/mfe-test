@@ -29,16 +29,18 @@ jobs:
               - 'container/**'
             header:
               - 'header/**'
+      - name: Debug-0
+        run: echo "${{ steps.changes.outputs.container }}"
 
       - name: Set up FOLDER & AWS_S3_BUCKET var for guest (container)
         if: steps.changes.outputs.container == 'true'
         run: |
-          echo "AWS_S3_BUCKET=secrets.AWS_S3_BUCKET_CONTAINER" >> $GITHUB_ENV
+          echo "AWS_S3_BUCKET=${{ secrets.AWS_S3_BUCKET_CONTAINER }}" >> $GITHUB_ENV
           echo "FOLDER=container" >> $GITHUB_ENV
       - name: Set up FOLDER & AWS_S3_BUCKET var for guest (header)
         if: steps.changes.outputs.header == 'true'
         run: |
-          echo "AWS_S3_BUCKET=secrets.AWS_S3_BUCKET_HEADER" >> $GITHUB_ENV
+          echo "AWS_S3_BUCKET=${{ secrets.AWS_S3_BUCKET_CONTAINER }}" >> $GITHUB_ENV
           echo "FOLDER=header" >> $GITHUB_ENV
 
       - name: Import Node action
@@ -58,7 +60,7 @@ jobs:
         run: echo env.AWS_S3_BUCKET
 
       - name: Debug-2
-        run: echo ${{ env.AWS_S3_BUCKET }}
+        run: echo "${{ env.AWS_S3_BUCKET }}"
       # AWS S3
       - uses: jakejarvis/s3-sync-action@master
         with:
