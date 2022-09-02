@@ -30,8 +30,9 @@ jobs:
             header:
               - 'header/**'
       - name: Debug-0
-        run: echo "container: ${{ steps.changes.outputs.container }}"
-        run: echo "header: ${{ steps.changes.outputs.header }}"
+        run: |
+          echo "container: ${{ steps.changes.outputs.container }}"
+          echo "header: ${{ steps.changes.outputs.header }}"
 
       - name: Set up FOLDER & AWS_S3_BUCKET var for guest (container)
         if: steps.changes.outputs.container == 'true'
