@@ -11,7 +11,7 @@ function App() {
   return (
     <>
       <div ref={ref}></div>
-      <h1>Container</h1>
+      <h1>Container (Host App)</h1>
     </>
   );
 }
