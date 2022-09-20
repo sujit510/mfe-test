@@ -17,6 +17,7 @@ function App() {
                 <a
                     target={'_blank'}
                     href="https://github.com/sujit510/mfe-test/"
+                    alt="Go to Github repo"
                 >
                     <img src={GithubLogo} />
                 </a>
