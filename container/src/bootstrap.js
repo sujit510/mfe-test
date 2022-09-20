@@ -14,7 +14,9 @@ function App() {
             <h1>Welcome to the Micro Frontend Container i.e. Host App</h1>
             <h4>
                 This imports exposed Header module function from -
-                http://mfe-react-guest.sujitsingh.in/
+                <a href="http://mfe-react-guest.sujitsingh.in/" target="new">
+                    HERE
+                </a>
             </h4>
         </>
     );
