@@ -9,3 +9,5 @@ This has 2 apps running:
 2. Header app (http://mfe-react-guest.sujitsingh.in/)
 
 When we make change to Header app, for example, if we change background color, it gets refletced on Header app when Header app is re-deployed and since it is exposed from Header and imported inside Container app as a Federated module using webpack, it gets automatically reflected on Container app without re-deploying it.
+
+### It uses Github actions to trigger build & deployment
