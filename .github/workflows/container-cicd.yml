@@ -1,4 +1,4 @@
-name: CICD-for-Container-Host
+name: CICD for Container (Host)
 on:
     push:
         branches:
@@ -6,7 +6,7 @@ on:
         paths:
             - container/**
 jobs:
-    CICD for Container (Host):
+    CICD-for-Container-Host:
         runs-on: ubuntu-latest
         steps:
             - run: echo "🎉 The Container (Host) job was automatically triggered by a ${{ github.event_name }} event."
