@@ -9,9 +9,9 @@ module.exports = {
     mode: 'development',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        publicPath: 'http://mfe-react-guest.sujitsingh.in/',
+        publicPath: 'http://mfe-react-guest.sujitsingh.in/', // For Prod // TODO: Split config to another file
+        // publicPath: '/', // For Dev
         filename: 'bundle.js',
-        publicPath: '/',
     },
     target: 'web',
     devServer: {
