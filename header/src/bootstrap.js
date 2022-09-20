@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import GithubLogo from './github-logo.png';
 
 function App() {
@@ -27,18 +27,13 @@ function App() {
 }
 
 const renderFn = (rootEle) => {
-    rootEle.render(
-        <React.StrictMode>
-            <App />
-        </React.StrictMode>
-    );
+    ReactDOM.render(<App />, rootEle);
 };
 
 // window.renderFn = renderFn;
 
 if (!window.containerContext) {
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    renderFn(root);
+    renderFn(document.querySelector('#root'));
 }
 
 export { renderFn };
