@@ -11,7 +11,7 @@ function App() {
     return (
         <>
             <div ref={ref}></div>
-            <h1>Welcome to the Micro Frontend Container (Host App)</h1>
+            <h1>Welcome to the Micro Frontend Container i.e. Host App</h1>
             <h4>
                 This imports exposed Header module function from
                 http://mfe-react-guest.sujitsingh.in/
