@@ -1,46 +1,46 @@
-name: CICD for Container (Host)
+name: CICD-for-Container-Host
 on:
-  push:
-    branches:
-      - mfe-webpack
-    paths:
-      - container/**
+    push:
+        branches:
+            - mfe-webpack
+        paths:
+            - container/**
 jobs:
-  CICD for Container (Host):
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "🎉 The Container (Host) job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
+    CICD for Container (Host):
+        runs-on: ubuntu-latest
+        steps:
+            - run: echo "🎉 The Container (Host) job was automatically triggered by a ${{ github.event_name }} event."
+            - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+            - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+            - name: Check out repository code
+              uses: actions/checkout@v3
+            - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+            - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+            - name: List files in the repository
+              run: |
+                  ls ${{ github.workspace }}
 
-      - name: Import Node action
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - name: Install npm packages
-        run: |
-          cd container
-          npm i
-      - name: Build
-        run: |
-          cd container
-          npm run build
+            - name: Import Node action
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 16
+            - name: Install npm packages
+              run: |
+                  cd container
+                  npm i
+            - name: Build
+              run: |
+                  cd container
+                  npm run build
 
-      # AWS S3
-      - uses: jakejarvis/s3-sync-action@master
-        with:
-          args: --acl public-read --follow-symlinks --exclude '.git/*'
-        env:
-          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET_CONTAINER }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: "ap-south-1"
-          SOURCE_DIR: "container/dist" # optional: defaults to entire repository
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+            # AWS S3
+            - uses: jakejarvis/s3-sync-action@master
+              with:
+                  args: --acl public-read --follow-symlinks --exclude '.git/*'
+              env:
+                  AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET_CONTAINER }}
+                  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                  AWS_REGION: 'ap-south-1'
+                  SOURCE_DIR: 'container/dist' # optional: defaults to entire repository
+            - run: echo "🍏 This job's status is ${{ job.status }}."
